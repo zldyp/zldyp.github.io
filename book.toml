@@ -3,3 +3,13 @@ authors = []
 language = "en"
 src = "src"
 title = "notes"
+[output.html]
+# 引入 Catppuccin CSS（路径根据实际下载的文件调整）
+additional-css = [
+  "theme/css/catppuccin-admonish.css",
+  "theme/css/catppuccin-alerts.css",
+  "theme/css/catppuccin.css",
+]
+# 可选：设置默认主题为深色（如果使用深色风格）
+default-theme = "latte"
+preferred-dark-theme = "mocha"
