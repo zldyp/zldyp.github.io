@@ -179,7 +179,7 @@
                         <h1 id="笔记"><a class="header" href="#笔记">笔记</a></h1>
 <h2 id="linux-设置代理时-密码出现特殊字符"><a class="header" href="#linux-设置代理时-密码出现特殊字符">Linux 设置代理时, 密码出现特殊字符</a></h2>
 <p>解决办法 就是将特殊字符转换成 ASIIC 码形式输入, 以 % + Hex 形式(0x忽略).</p>
-<pre><code class="language-shell">~ : 0x7E,         ! : 0x21    
+<pre><code class="language-bash">~ : 0x7E,         ! : 0x21    
 @ : 0x40,         # : 0x23  
 $ : 0x24,         % : 0x25  
 ^ : 0x5E,         &amp; : 0x26  
@@ -187,6 +187,30 @@ $ : 0x24,         % : 0x25
 </code></pre>
 <pre><code class="language-shell">$ export HTTP_PROXY=http://CodeCore:%40MingHou233%21@172.16.2.17:8787  
 $ export HTTPS_PROXY=https://CodeCore:%40MingHou233%21@172.16.2.17:8787 
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="github-上传报错"><a class="header" href="#github-上传报错">github 上传报错</a></h2>
+<ol>
+<li>远程仓库名称变成了main
+解决方式：
+重命名本地分支： <code>git branch -m oldBranchName newBranchName</code></li>
+</ol>
+<h2 id="git-子模块"><a class="header" href="#git-子模块">git 子模块</a></h2>
+<h3 id="添加子模块"><a class="header" href="#添加子模块">添加子模块</a></h3>
+<pre><code class="language-bash">git submodule add https://github.com/iphysresearch/GWToolkit.git GWToolkit
+</code></pre>
+<h3 id="更新子模块"><a class="header" href="#更新子模块">更新子模块</a></h3>
+<pre><code class="language-bash">git submodule init
+git submodule update
+</code></pre>
+<h3 id="子模块上传"><a class="header" href="#子模块上传">子模块上传</a></h3>
+<pre><code class="language-bash">git branch new
+git checkout new
+git add .
+git commit -m "update"
+git checkout main
+git merge new
+git push origin main
 
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="python"><a class="header" href="#python">python</a></h1>

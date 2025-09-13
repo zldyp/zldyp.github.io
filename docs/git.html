@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Linux - notes</title>
+        <title>git - notes</title>
 
 
         <!-- Custom HTML head -->
@@ -175,17 +175,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="笔记"><a class="header" href="#笔记">笔记</a></h1>
-<h2 id="linux-设置代理时-密码出现特殊字符"><a class="header" href="#linux-设置代理时-密码出现特殊字符">Linux 设置代理时, 密码出现特殊字符</a></h2>
-<p>解决办法 就是将特殊字符转换成 ASIIC 码形式输入, 以 % + Hex 形式(0x忽略).</p>
-<pre><code class="language-bash">~ : 0x7E,         ! : 0x21    
-@ : 0x40,         # : 0x23  
-$ : 0x24,         % : 0x25  
-^ : 0x5E,         &amp; : 0x26  
-* : 0x2A,         ? : 0x3F   
+                        <h2 id="github-上传报错"><a class="header" href="#github-上传报错">github 上传报错</a></h2>
+<ol>
+<li>远程仓库名称变成了main
+解决方式：
+重命名本地分支： <code>git branch -m oldBranchName newBranchName</code></li>
+</ol>
+<h2 id="git-子模块"><a class="header" href="#git-子模块">git 子模块</a></h2>
+<h3 id="添加子模块"><a class="header" href="#添加子模块">添加子模块</a></h3>
+<pre><code class="language-bash">git submodule add https://github.com/iphysresearch/GWToolkit.git GWToolkit
 </code></pre>
-<pre><code class="language-shell">$ export HTTP_PROXY=http://CodeCore:%40MingHou233%21@172.16.2.17:8787  
-$ export HTTPS_PROXY=https://CodeCore:%40MingHou233%21@172.16.2.17:8787 
+<h3 id="更新子模块"><a class="header" href="#更新子模块">更新子模块</a></h3>
+<pre><code class="language-bash">git submodule init
+git submodule update
+</code></pre>
+<h3 id="子模块上传"><a class="header" href="#子模块上传">子模块上传</a></h3>
+<pre><code class="language-bash">git branch new
+git checkout new
+git add .
+git commit -m "update"
+git checkout main
+git merge new
+git push origin main
 
 </code></pre>
 
@@ -193,8 +204,11 @@ $ export HTTPS_PROXY=https://CodeCore:%40MingHou233%21@172.16.2.17:8787
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="linux.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next prefetch" href="git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="python/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -204,8 +218,11 @@ $ export HTTPS_PROXY=https://CodeCore:%40MingHou233%21@172.16.2.17:8787
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="linux.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next prefetch" href="git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="python/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

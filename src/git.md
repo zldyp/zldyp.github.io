@@ -1,8 +1,3 @@
----
-lang: zh-CN
-title: git
-description: git笔记
----
 
 ## github 上传报错
 1. 远程仓库名称变成了main
@@ -11,18 +6,18 @@ description: git笔记
 
 ## git 子模块
 ### 添加子模块
-```
+``` bash
 git submodule add https://github.com/iphysresearch/GWToolkit.git GWToolkit
 ```
 
 ### 更新子模块
-```
+``` bash
 git submodule init
 git submodule update
 ```
 
 ### 子模块上传
-```
+``` bash
 git branch new
 git checkout new
 git add .
