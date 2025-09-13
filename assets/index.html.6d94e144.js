@@ -1,1 +1,0 @@
-const t=JSON.parse('{"key":"v-74485282","path":"/k8s/","title":"k8s笔记","lang":"zh-CN","frontmatter":{"lang":"zh-CN","title":"k8s笔记","description":"k8s项目笔记"},"excerpt":"","headers":[],"git":{"updatedTime":null,"contributors":[]},"filePathRelative":"k8s/index.md"}');export{t as data};

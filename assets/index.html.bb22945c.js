@@ -1,1 +1,0 @@
-import{_ as t,o as a,c as s,a as e,d as c}from"./app.c9710ffe.js";const n={},o=e("h1",{id:"k8s",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#k8s","aria-hidden":"true"},"#"),c(" k8s")],-1),r=[o];function d(_,i){return a(),s("div",null,r)}const l=t(n,[["render",d],["__file","index.html.vue"]]);export{l as default};
