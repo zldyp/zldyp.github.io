@@ -1,5 +1,5 @@
 ## 启动gitlab
-```
+```shell
 docker run --detach \
   --hostname liutao.huawei.com \
   --publish 8443:443 --publish 8180:8180 --publish 2222:22  --publish 8008:80\
@@ -11,7 +11,7 @@ docker run --detach \
    --shm-size 256m \
   gitlab/gitlab-ce:latest
 ```
-```
+```shell
 export GITLAB_HOME=/home/gitlab
 sudo docker run --detach \
   --hostname liutao.huawei.com \
@@ -34,7 +34,7 @@ sudo docker run --detach \
 ## 修改启动端口
 文件在/gitlab/etc/gitlab.rb，
 假设宿主机 ip 为 192.168.1.111，external_url 和 nginx['listen_port']的端口需要和第一步的映射端口对应。
-```
+```shell
 // 修改如下语句
 external_url 'http://192.168.1.111:8180'
 # https需要下面这句
@@ -47,11 +47,11 @@ gitlab_rails['gitlab_shell_ssh_port'] = 8022
 
 ## 启动 gitlab runner
 创建 Docker 卷：
-```
+```shell
 docker volume create gitlab-runner-config
 ```
 使用我们刚刚创建的卷启动 GitLab Runner 容器：
-```
+```shell
 docker run -d --name gitlab-runner --restart always \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v gitlab-runner-config:/etc/gitlab-runner \
@@ -74,7 +74,7 @@ docker run -d --name gitlab-runner --restart always \
 如果您docker作为执行人输入，系统会要求您输入默认引擎，用于未在.gitlab-ci.yml.
 
 ## gitlab-runner添加docker映射
-```
+```shell
 [[runners]]
   name = "a90940d190e5"
   url = "http://192.168.140.81:8080/"
