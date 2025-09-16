@@ -1,5 +1,5 @@
 [book]
-authors = []
+authors = ["zldyp"]
 language = "en"
 src = "src"
 title = "notes"
@@ -9,7 +9,9 @@ additional-css = [
   "theme/css/catppuccin-admonish.css",
   "theme/css/catppuccin-alerts.css",
   "theme/css/catppuccin.css",
+  "theme/css/custom.css"  # 新增自定义样式
 ]
+additional-js = ["theme/js/custom.js"]
 # 可选：设置默认主题为深色（如果使用深色风格）
 default-theme = "latte"
 preferred-dark-theme = "mocha"
