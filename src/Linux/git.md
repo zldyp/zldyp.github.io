@@ -1,7 +1,7 @@
 
 ## github 上传报错
 远程仓库名称变成了main  
-解决方式： 
+解决方式：  
 重命名本地分支： `git branch -m oldBranchName newBranchName`
 
 ## git 子模块
