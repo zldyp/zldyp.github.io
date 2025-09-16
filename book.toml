@@ -13,3 +13,6 @@ additional-css = [
 # 可选：设置默认主题为深色（如果使用深色风格）
 default-theme = "latte"
 preferred-dark-theme = "mocha"
+[output.html.fold]
+enable = true    # whether or not to enable section folding
+level = 0         # the depth to start folding
