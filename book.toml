@@ -1,5 +1,5 @@
 [book]
-authors = [zldyp]
+authors = ["zldyp"]
 language = "en"
 src = "src"
 title = "notes"
