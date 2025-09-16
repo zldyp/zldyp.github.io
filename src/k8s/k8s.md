@@ -4,23 +4,23 @@
 ## 实用技巧
 ```bash
 kubectl命令太多太长记不住？ 
- 查看资源缩写 
+# 查看资源缩写 
 kubectl describe 
- 配置kubectl自动完成 
+# 配置kubectl自动完成 
 source <(kubectl completion bash)
 
 kubectl写yaml太累，找样例太麻烦? 
- 用run命令生成 
+# 用run命令生成 
 kubectl run --image=nginx my-deploy -o yaml --dry-run > my-deploy.yaml 
- 用get命令导出 
+# 用get命令导出 
 kubectl get statefulset/foo -o=yaml --export > new.yaml 
- Pod亲和性下面字段的拼写忘记了 
+# Pod亲和性下面字段的拼写忘记了 
 kubectl explain pod.spec.affinity.podAffinity
 
-批量删除pod
+# 批量删除pod
 kubectl -n kube-system delete pod `kubectl -n kube-system get pods | grep 0/ | awk '{print $1}'| xargs`
 
-强制删除
+# 强制删除
 kubectl delete po <your-pod-name> -n <name-space> --force --grace-period=0
 ```
 
