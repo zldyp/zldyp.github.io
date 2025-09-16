@@ -1,115 +1,198 @@
-// 页面加载完成后执行
-document.addEventListener('DOMContentLoaded', () => {
-  // 检查是否已有toc，避免重复生成
-  if (document.querySelector('.floating-toc')) return;
-  
-  // 创建大纲容器
-  const tocContainer = document.createElement('div');
-  tocContainer.className = 'floating-toc';
-  
-  // 创建标题和列表容器
-  tocContainer.innerHTML = `
-    <div class="toc-header">
-      <h3>章节导航</h3>
-      <button class="toc-toggle">≡</button>
-    </div>
-    <div class="toc-content">
-      <ul class="toc-list"></ul>
-    </div>
-  `;
-  
-  // 将大纲添加到页面
-  document.body.appendChild(tocContainer);
-  
-  // 获取内容区域和所有标题
-  const content = document.querySelector('.content');
-  const headings = content.querySelectorAll('h2, h3, h4, h5, h6');
-  const tocList = tocContainer.querySelector('.toc-list');
-  
-  // 如果没有标题，隐藏大纲
-  if (headings.length === 0) {
-    tocContainer.style.display = 'none';
-    return;
+/* 右侧悬浮大纲样式 */
+.floating-toc {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  background-color: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+/* 展开状态 */
+.floating-toc.expanded {
+  transform: translateX(0);
+}
+
+/* 标题样式 */
+.toc-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+.toc-header h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* 右侧悬浮大纲样式 */
+.toc-container {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 280px; /* 【修改】稍微加宽以适应更大字体（原宽度可能较小） */
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+/* 大纲标题样式 - 增大字体 */
+.toc-container h3 {
+  margin-top: 0;
+  font-size: 1.8rem; /* 【修改】增大标题字体（原可能为1.2rem或更小） */
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* 大纲列表样式 */
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-list li {
+  margin-bottom: 8px;
+}
+
+/* 大纲链接样式 - 增大字体 */
+.toc-list a {
+  text-decoration: none;
+  color: #34495e;
+  font-size: 1.4rem; /* 【修改】增大条目字体（原可能为1rem或更小） */
+  display: block;
+  transition: all 0.2s ease;
+}
+
+/* 不同级别标题的缩进 */
+.toc-list li li { margin-left: 15px; }
+.toc-list li li li { margin-left: 30px; }
+.toc-list li li li li { margin-left: 45px; }
+.toc-list li li li li li { margin-left: 60px; }
+
+/* 悬停和激活状态 */
+.toc-list a:hover {
+  color: #3498db;
+  transform: translateX(3px);
+}
+
+.toc-list a.active {
+  color: #3498db;
+  font-weight: bold;
+}
+
+/* 移动端切换按钮 */
+.toc-toggle {
+  display: none;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 101;
+}
+
+
+.toc-item {
+  margin: 0.3rem 0;
+}
+
+.toc-item a {
+  text-decoration: none;
+  color: #666;
+  display: block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.toc-item a:hover {
+  color: #007bff;
+  background-color: #f5f7fa;
+}
+
+/* 激活状态 */
+.toc-item a.active {
+  color: #007bff;
+  font-weight: 600;
+  background-color: #eef4ff;
+}
+
+/* 层级缩进 */
+.level-1 { margin-left: 0; }
+.level-2 { margin-left: 1rem; }
+.level-3 { margin-left: 2rem; }
+.level-4 { margin-left: 3rem; }
+.level-5 { margin-left: 4rem; }
+.level-6 { margin-left: 5rem; }
+
+/* 响应式调整 */
+@media (max-width: 767px) {
+  .floating-toc {
+    width: 250px;
   }
   
-  // 生成大纲项
-  headings.forEach(heading => {
-    // 跳过无ID的标题（mdbook会自动为标题生成ID）
-    if (!heading.id) return;
-    
-    const item = document.createElement('li');
-    item.className = `toc-item level-${heading.tagName[1]}`;
-    
-    const link = document.createElement('a');
-    link.href = `#${heading.id}`;
-    link.textContent = heading.textContent;
-    link.title = heading.textContent;
-    
-    item.appendChild(link);
-    tocList.appendChild(item);
-    
-    // 点击导航项后可以在移动设备上自动收起菜单
-    link.addEventListener('click', () => {
-      if (window.innerWidth < 768) {
-        tocContainer.classList.remove('expanded');
-      }
-    });
-  });
-  
-  // 处理大纲折叠/展开按钮
-  const tocToggle = tocContainer.querySelector('.toc-toggle');
-  tocToggle.addEventListener('click', () => {
-    tocContainer.classList.toggle('expanded');
-  });
-  
-  // 监听滚动，高亮当前可见的标题
-  window.addEventListener('scroll', highlightActiveHeading);
-  
-  // 初始高亮
-  highlightActiveHeading();
-  
-  // 高亮当前可见的标题函数
-  function highlightActiveHeading() {
-    let activeHeading = null;
-    let minDistance = Infinity;
-    
-    headings.forEach(heading => {
-      const rect = heading.getBoundingClientRect();
-      const distance = Math.abs(rect.top);
-      
-      // 标题顶部在视口上方或内部，且距离最近
-      if (rect.top <= 100 && distance < minDistance) {
-        minDistance = distance;
-        activeHeading = heading;
-      }
-    });
-    
-    // 移除所有高亮
-    document.querySelectorAll('.toc-item a').forEach(link => {
-      link.classList.remove('active');
-    });
-    
-    // 添加当前高亮
-    if (activeHeading && activeHeading.id) {
-      const activeLink = tocList.querySelector(`a[href="#${activeHeading.id}"]`);
-      if (activeLink) {
-        activeLink.classList.add('active');
-        // 滚动到当前激活的链接，使其在可见区域
-        activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      }
-    }
+  .toc-toggle {
+    display: block;
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 101;
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .toc-container {
+      transform: translateY(-50%) translateX(100%);
+      width: 250px; /* 【修改】对应加宽移动端宽度（原可能为220px或更小） */
   }
   
-  // 响应式处理
-  function handleResize() {
-    if (window.innerWidth >= 768) {
-      tocContainer.classList.add('expanded');
-    } else {
-      tocContainer.classList.remove('expanded');
-    }
+  .toc-container.active {
+      transform: translateY(-50%) translateX(0);
   }
   
-  // 初始调整和窗口大小变化时调整
-  handleResize();
-  window.addEventListener('resize', handleResize);
-});
+  .toc-toggle {
+      display: block;
+  }
+}
+
+
+/* 为内容区域添加右侧边距，避免被大纲遮挡 */
+@media (min-width: 768px) {
+  .page {
+    margin-right: 300px;
+  }
+}
