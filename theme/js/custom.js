@@ -30,7 +30,7 @@ function createTocContainer() {
   // 创建移动端切换按钮
   const tocToggle = document.createElement('button');
   tocToggle.className = 'toc-toggle';
-  tocToggle.innerHTML = '≡';
+  tocToggle.innerHTML = '×';
   tocToggle.addEventListener('click', () => {
     tocContainer.classList.toggle('active');
   });
