@@ -4,6 +4,7 @@ language = "en"
 src = "src"
 title = "notes"
 [output.html]
+git-repository-url = "https://github.com/zldyp"
 # 引入 Catppuccin CSS（路径根据实际下载的文件调整）
 additional-css = [
   "theme/css/catppuccin-admonish.css",
