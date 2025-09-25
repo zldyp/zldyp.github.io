@@ -153,6 +153,8 @@ use reqwest::{blocking::Client, header::HeaderMap};
 // 创建一个不使用代理的 Client
     let client = Client::builder()
         .cookie_store(true)  //使用cookie
+        .danger_accept_invalid_certs(true)  // 禁用证书有效性检查
+        .danger_accept_invalid_hostnames(true)  // 允许域名不匹配（可选）
         .no_proxy()  // 不用代理
         .build()
         .unwrap();
