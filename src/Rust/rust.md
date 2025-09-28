@@ -31,8 +31,100 @@
 
 ```shell
 $ pacman -Sy && pacman -Syu
+$ pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils
 $ pacman -S mingw-w64-x86_64-toolchain
 ```
+
+## 交叉编译
+### 指定库文件
+文件: .cargo/config.toml
+```toml
+[target.aarch64-unknown-linux-gnu]
+# 指定目标架构的链接器（必须与目标匹配）
+linker = "aarch64-linux-gnu-gcc"
+# 指定库文件搜索路径（可添加多个路径，用分号分隔）
+rustflags = [
+    "-L", "/usr/aarch64-linux-gnu/lib",          # 目标架构系统库路径
+]
+```
+### 编译到x86
+1. 安装工具链
+```shell
+rustup target add x86_64-unknown-linux-gnu
+```
+2. 编译
+```shell
+cargo build --target x86_64-unknown-linux-gnu --release
+```
+
+### 编译到arm
+1. 安装目标架构
+```shell
+# 32位 ARM
+rustup target add armv7-unknown-linux-gnueabihf
+
+# 64位 ARM
+rustup target add aarch64-unknown-linux-gnu
+```
+
+2. 编译
+```shell
+# 32位 ARM
+cargo build --target armv7-unknown-linux-gnueabihf --release
+
+# 64位 ARM
+cargo build --target aarch64-unknown-linux-gnu --release
+```
+
+### config.toml
+```toml
+[target.x86_64-unknown-linux-gnu]
+# 根据你的系统调整链接器路径
+# macOS 通常为 "x86_64-linux-gnu-gcc"
+# Linux 通常为 "x86_64-linux-gnu-gcc"
+linker = "x86_64-linux-gnu-gcc"
+```
+
+### 编译报错
+#### 缺少openssl-sys
+##### 安装依赖
+1. CentOS/RHEL 系统
+```shell
+# 安装 OpenSSL 开发包
+sudo yum install openssl-devel
+```
+2. Ubuntu/Debian 系统
+```shell
+# 安装 OpenSSL 开发包
+sudo apt-get install libssl-dev
+```
+3. macOS 系统
+使用 Homebrew 安装：
+```shell
+brew install openssl@3
+# 手动指定 OpenSSL 路径（如果 brew 安装路径非默认）
+export OPENSSL_DIR=$(brew --prefix openssl@3)
+```
+4. Windows 系统（WSL2 或 MSYS2）
+WSL2 中按 Ubuntu 方式安装 libssl-dev
+原生 Windows 建议使用 MSYS2：
+```shell
+# 使用MSYS2
+pacman -S mingw-w64-x86_64-openssl
+```
+##### 使用rustls代替
+如果不想在系统中安装 OpenSSL，可以使用纯 Rust 实现的 rustls 替代，避免依赖系统库：
+
+在 Cargo.toml 中替换依赖：
+```toml
+# 移除原来的 openssl 相关依赖
+# openssl = "0.10"
+# 添加 rustls 及相关适配器（以 reqwest 为例）
+reqwest = { version = "0.12.23", features = ["stream","rustls-tls"] ,default-features = false }
+# 其他库（如 hyper、tokio-rustls 等）也有类似的 rustls 特性
+```
+
+#### ring编译失败
 
 ## create使用
 
