@@ -22,6 +22,7 @@
 * **indicatif** 进度条工具
 
 ## 经验
+
 * 特征需要引入后，才能使用实现了该特征的方法
 
 ## 安装gcc
@@ -35,6 +36,17 @@ $ pacman -S mingw-w64-x86_64-toolchain
 ```
 
 ## 交叉编译
+### 指定库文件
+文件: .cargo/config.toml
+```toml
+[target.aarch64-unknown-linux-gnu]
+# 指定目标架构的链接器（必须与目标匹配）
+linker = "aarch64-linux-gnu-gcc"
+# 指定库文件搜索路径（可添加多个路径，用分号分隔）
+rustflags = [
+    "-L", "/usr/aarch64-linux-gnu/lib",          # 目标架构系统库路径
+]
+```
 ### 编译到x86
 1. 安装工具链
 ```shell
@@ -73,7 +85,7 @@ cargo build --target aarch64-unknown-linux-gnu --release
 linker = "x86_64-linux-gnu-gcc"
 ```
 
-### 常见报错
+### 编译报错
 #### 缺少openssl-sys
 ##### 安装依赖
 1. CentOS/RHEL 系统
@@ -108,9 +120,11 @@ pacman -S mingw-w64-x86_64-openssl
 # 移除原来的 openssl 相关依赖
 # openssl = "0.10"
 # 添加 rustls 及相关适配器（以 reqwest 为例）
-reqwest = { version = "0.11", features = ["rustls-tls"] }
+reqwest = { version = "0.12.23", features = ["stream","rustls-tls"] ,default-features = false }
 # 其他库（如 hyper、tokio-rustls 等）也有类似的 rustls 特性
 ```
+
+#### ring编译失败
 
 ## create使用
 
@@ -152,8 +166,6 @@ use reqwest::{blocking::Client, header::HeaderMap};
 // 创建一个不使用代理的 Client
     let client = Client::builder()
         .cookie_store(true)  //使用cookie
-        .danger_accept_invalid_certs(true)  // 禁用证书有效性检查
-        .danger_accept_invalid_hostnames(true)  // 允许域名不匹配（可选）
         .no_proxy()  // 不用代理
         .build()
         .unwrap();
