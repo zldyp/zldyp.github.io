@@ -5,4 +5,7 @@
 ```rust
 # 编译笔记  
 mdbook.exe build -o -d docs
+
+# 本地运行
+mdbook server
 ```
